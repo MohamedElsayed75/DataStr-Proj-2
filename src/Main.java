@@ -1,12 +1,15 @@
 import java.io.*;
-import java.util.Stack;
 
+
+// TODO: read all xml file as one line
+// TODO: Homemade diy stack
+// TODO: prefix evaluation
 public class Main {
     public static void main(String[] args) throws IOException {
         File file = new File("C:\\Users\\Mohamed.DESKTOP-6JCBAS3\\Desktop\\projects\\data structures\\proj-2\\src\\test.xml");
         BufferedReader br = new BufferedReader(new FileReader(file));
 
-        String all = "";
+//        String all = "";
         String line;
         StringBuilder result = new StringBuilder();
         while ((line = br.readLine()) != null) {
@@ -16,10 +19,10 @@ public class Main {
                 String value = line.substring(start, end);
                 result.append(value).append(" ");
 
-                all += line;
+//                all += line;
             }
         }
-        System.out.println(all);
+//        System.out.println(all);
 
 
         String out = result.toString().trim();
@@ -34,14 +37,20 @@ public class Main {
 
         System.out.println(PrefixIsValid(prefix));
 
-        //TODO: prefix to infix && evaluate infix ??
+        if (!PrefixIsValid(prefix)){
+            System.out.println("Expression is not valid");
+        } else {
+            System.out.println("infix");
+            String infix = PrefixToInfix(prefix);
+            System.out.println(infix);
+        }
 
 
     }
 
 
     public static boolean PrefixIsValid(String[] prefix) {
-        Stack<String> stack = new Stack<>();
+        Stack stack = new Stack();
         for (int i = prefix.length-1; i>=0 ; i--){
             String s = prefix[i];
             if (CheckType(s) == 0){
@@ -57,6 +66,28 @@ public class Main {
         }
         return stack.size() == 1 ; //there should be one operand left
     }
+
+    public static String PrefixToInfix(String[] prefix){
+        Stack stack = new Stack();
+
+        for (int i = prefix.length-1 ; i>=0 ; i--){
+            if (CheckType(prefix[i]) == 0){
+                stack.push(prefix[i]);
+            } else if (CheckType(prefix[i]) == 1) {
+                String operator = prefix[i];
+                String a = stack.pop();
+                String b = stack.pop();
+                stack.push("("+a+" "+operator+" "+b+")");
+            }
+        }
+
+        return stack.pop();
+    }
+
+
+//    public static double EvaluatePrefix(String[] prefix){
+//
+//    }
 
 
 
