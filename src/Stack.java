@@ -5,6 +5,7 @@ public class Stack {
         stack.push("a");
         stack.push("a");
         stack.push("a");
+        stack.pop();
         System.out.println(stack.size());
 
     }
