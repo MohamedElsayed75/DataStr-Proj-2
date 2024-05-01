@@ -20,7 +20,8 @@
         <operator value="*"/>
         <expr type="atom">
             <atom value="9"/>
-        </expr><expr type="atom">
+        </expr>
+        <expr type="atom">
         <atom value="8"/>
     </expr>
     </expr>

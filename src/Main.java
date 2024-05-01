@@ -1,11 +1,17 @@
 import java.io.*;
 
-// TODO: Homemade diy stack (DONE)
-// TODO: prefix evaluation (DONE)
 public class Main {
+    // no of exp = /exp
+    // operator
+    //atom
     public static void main(String[] args) throws IOException {
         File file = new File("C:\\Users\\Mohamed.DESKTOP-6JCBAS3\\Desktop\\projects\\data structures\\proj-2\\src\\test.xml");
         BufferedReader br = new BufferedReader(new FileReader(file));
+
+        int exprCount = 0;
+        int closingExpCount = 0;
+
+        boolean invalidXML = false;
 
         String line;
         StringBuilder result = new StringBuilder();
@@ -16,9 +22,37 @@ public class Main {
                 String value = line.substring(start, end);
                 result.append(value).append(" ");
 
+                if (line.contains("<operator value=") && CheckType(value)!=1) {
+                    System.out.println("ERROR: Invalid operator " + value);
+                    invalidXML = true;
+                } else if (line.contains("<atom value=") && CheckType(value)!=0){
+                    System.out.println("ERROR: Invalid atom " + value);
+                    invalidXML = true;
+                }
+
+
+                if ( CheckType(value)==1 && !line.contains("/>") ){
+                    System.out.println("ERROR: Missing closing tag on operator");
+                    invalidXML = true;
+                } else if (CheckType(value)==0 && !line.contains("/>")) {
+                    System.out.println("ERROR: Missing closing tag on atom");
+                    invalidXML = true;
+                }
+
+
             }
+
+            if (line.contains("<expr")) exprCount++;
+            else if (line.contains("</expr>")) closingExpCount++;
+
         }
 
+        if (exprCount != closingExpCount){
+            System.out.println("ERROR: Invalid closing expression count");
+            invalidXML = true;
+        }
+
+        if (invalidXML) return;
 
         String out = result.toString().trim();
 
