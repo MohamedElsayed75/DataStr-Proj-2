@@ -1,9 +1,7 @@
 import java.io.*;
 
 public class Main {
-    // no of exp = /exp
-    // operator
-    //atom
+
     public static void main(String[] args) throws IOException {
         File file = new File("C:\\Users\\Mohamed.DESKTOP-6JCBAS3\\Desktop\\projects\\data structures\\proj-2\\src\\test.xml");
         BufferedReader br = new BufferedReader(new FileReader(file));
