@@ -6,10 +6,10 @@ public class Main {
         File file = new File("C:\\Users\\Mohamed.DESKTOP-6JCBAS3\\Desktop\\projects\\data structures\\proj-2\\src\\test.xml");
         BufferedReader br = new BufferedReader(new FileReader(file));
 
-        int exprCount = 0;
-        int closingExpCount = 0;
 
         boolean invalidXML = false;
+
+        Stack tagChecker = new Stack();
 
         String line;
         StringBuilder result = new StringBuilder();
@@ -40,14 +40,21 @@ public class Main {
 
             }
 
-            if (line.contains("<expr")) exprCount++;
-            else if (line.contains("</expr>")) closingExpCount++;
-
+            if (line.contains("<expr")){
+                tagChecker.push("<expr");
+            } else if (line.contains("</expr>")) {
+                if (tagChecker.size() == 0){
+                    System.out.println("ERROR: more closing tags than opening tags");
+                    invalidXML=true;
+                } else {
+                    tagChecker.pop();
+                }
+            }
         }
 
-        if (exprCount != closingExpCount){
-            System.out.println("ERROR: Invalid closing expression count");
-            invalidXML = true;
+        if ( tagChecker.size() != 0){
+            System.out.println("ERROR: more opening tags than closing tags");
+            invalidXML=true;
         }
 
         if (invalidXML) return;
@@ -72,11 +79,7 @@ public class Main {
             System.out.println(infix);
             System.out.println("value: " + EvaluatePrefix(prefix));
         }
-
-
     }
-
-
     public static boolean PrefixIsValid(String[] prefix) {
         Stack stack = new Stack();
         for (int i = prefix.length-1; i>=0 ; i--){
@@ -108,7 +111,6 @@ public class Main {
                 stack.push("("+a+" "+operator+" "+b+")");
             }
         }
-
         return stack.pop();
     }
 
@@ -139,9 +141,7 @@ public class Main {
                 }
             }
         }
-
         return Double.parseDouble(stack.pop()) ;
-
     }
 
 

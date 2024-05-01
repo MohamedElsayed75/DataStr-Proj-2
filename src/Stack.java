@@ -1,4 +1,9 @@
 public class Stack {
+    public static void main(String[] args){
+        Stack stack = new Stack();
+        System.out.println(stack.size());
+    }
+
     private int count = -1;
 
     Node top = null;
@@ -9,6 +14,10 @@ public class Stack {
         count++;
     }
     public String pop(){
+        if (top == null){
+            return "0";
+        }
+
         String x = top.value;
         top = top.next;
         count--;
